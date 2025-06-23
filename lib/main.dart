@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stream_biuilder_state/counter_block.dart';
+import 'package:stream_biuilder_state/counter_event.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,18 +33,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
+   final CounterBlock _counterBlock =  CounterBlock();
 
   @override
   Widget build(BuildContext context) {
@@ -52,22 +44,28 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+        child: StreamBuilder(
+          initialData: 0,
+          stream: _counterBlock.counterStateStream,
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text('You have pushed the button this many times:'),
+                Text(
+                  '${snapshot.data}',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ],
+            );
+          }
         ),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: _incrementCounter,
+            onPressed: () => _counterBlock.counterEventSink.add(DecrementEvent()),
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
           ),
@@ -75,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 10,
           ),
           FloatingActionButton(
-            onPressed: _incrementCounter,
+            onPressed: () => _counterBlock.counterEventSink.add(IncrementEvent()),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
