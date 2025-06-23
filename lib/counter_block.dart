@@ -7,11 +7,24 @@ class CounterBlock {
   int _counter = 0;
 
   final StreamController<int> _counterStateController = StreamController<int>();
-  Stream<int> get _counterStateStream  => _counterStateController.stream;
-  Sink<int> get incCounter => _counterStateController.sink;
+  Stream<int> get counterStateStream  => _counterStateController.stream;
+  Sink<int> get _counterStateSink => _counterStateController.sink;
 
   final StreamController<CounterEvent> _counterEventController = StreamController<CounterEvent>();
-  Stream<CounterEvent> get _counterEventStream => _counterEventController.stream;
+  Sink<CounterEvent> get counterEventSink => _counterEventController.sink; //this sink is used to dispatch CounterEvents
 
+  CounterBlock(){
+    _counterEventController.stream.listen(_mapEventToState); //This stream will listen to events dispatched by the counterEventSink
+  }
 
+  //This method will be invoked every time when the stream detects counterEvent dispatched
+  void _mapEventToState(CounterEvent event){
+    if(event is IncrementEvent){
+      _counter++;
+    }
+    else{
+      _counter--;
+    }
+    _counterStateSink.add(_counter);
+  }
 }
