@@ -27,4 +27,9 @@ class CounterBlock {
     }
     _counterStateSink.add(_counter);
   }
+
+  void dispose(){
+    _counterEventController.close();
+    _counterStateController.close();
+  }
 }
