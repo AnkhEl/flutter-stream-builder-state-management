@@ -8,7 +8,7 @@ class CounterBlock {
 
   final StreamController<int> _counterStateController = StreamController<int>();
   Stream<int> get counterStateStream  => _counterStateController.stream;
-  Sink<int> get _counterStateSink => _counterStateController.sink;
+  StreamSink<int> get _counterStateSink => _counterStateController.sink;
 
   final StreamController<CounterEvent> _counterEventController = StreamController<CounterEvent>();
   Sink<CounterEvent> get counterEventSink => _counterEventController.sink; //this sink is used to dispatch CounterEvents

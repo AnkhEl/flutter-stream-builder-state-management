@@ -2,4 +2,4 @@ abstract class CounterEvent {}
 
 class IncrementEvent extends CounterEvent{}
 
-class Decrement extends CounterEvent{}
+class DecrementEvent extends CounterEvent{}
