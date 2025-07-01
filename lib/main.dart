@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Counter App'),
     );
   }
 }
@@ -68,6 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
             onPressed: () => _counterBlock.counterEventSink.add(DecrementEvent()),
             tooltip: 'Decrement',
             child: const Icon(Icons.remove),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          FloatingActionButton(
+            onPressed: () => _counterBlock.counterEventSink.add(ResetEvent()),
+            tooltip: 'Reset',
+            child: const Icon(Icons.lock_reset),
           ),
           SizedBox(
             width: 10,

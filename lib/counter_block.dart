@@ -22,6 +22,9 @@ class CounterBlock {
     if(event is IncrementEvent){
       _counter++;
     }
+    else if(event is ResetEvent){
+      _counter = 0;
+    }
     else{
       _counter--;
     }
